@@ -66,7 +66,7 @@ func (self *Config) RawString(section string, option string) (value string, err 
 		if tValue, ok := self.data[section][option]; ok {
 			return tValue.v, nil
 		}
-		return "", errors.New(optionError(option).Error())
+		return "", errors.New(optionError(strings.Join([]string{"[", section, "] ", option}, "")).Error())
 	}
 	return "", errors.New(sectionError(section).Error())
 }
@@ -102,7 +102,7 @@ func (self *Config) String(section string, option string) (value string, err err
 			nvalue = self.data[section][noption]
 		}
 		if nvalue.v == "" {
-			return "", errors.New(optionError(noption).Error())
+			return "", errors.New(optionError(strings.Join([]string{"[", section, "] ", noption}, "")).Error())
 		}
 
 		// substitute by new value and take off leading '%(' and trailing ')s'
